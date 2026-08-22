@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Aplikasi Google Apps Script</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+    }
+
+    #loading {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      z-index: 9999;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #ddd;
+      border-top-color: #2563eb;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="loading">
+    <div class="spinner"></div>
+    <div>Memuat aplikasi...</div>
+  </div>
+
+  <iframe
+    id="app"
+    allow="clipboard-read; clipboard-write"
+    allowfullscreen>
+  </iframe>
+
+  <script>
+
+    // ==========================================
+    // URL GOOGLE APPS SCRIPT ANDA
+    // ==========================================
+
+    const GAS_URL =
+      "https://script.google.com/macros/s/AKfycbxkppNYegaduq_sXa7kTyJQ0qFFPNq3ZPrsn0VdVlIaDHXWujjpzMiTiVtw9kmoptsxsQ/exec";
+
+
+    // ==========================================
+    // LOAD APLIKASI
+    // ==========================================
+
+    const iframe = document.getElementById("app");
+    const loading = document.getElementById("loading");
+
+    iframe.src = GAS_URL;
+
+    iframe.onload = function () {
+      loading.style.display = "none";
+      iframe.style.display = "block";
+    };
+
+    // Jika gagal dimuat
+    setTimeout(function () {
+
+      if (iframe.style.display !== "block") {
+
+        loading.innerHTML = `
+          <div style="text-align:center;padding:20px">
+            <h3>Aplikasi sedang dimuat...</h3>
+            <p>Silakan tunggu beberapa saat.</p>
+          </div>
+        `;
+
+      }
+
+    }, 10000);
+
+  </script>
+
+</body>
+</html>
